@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+*.onnx
+*.bin
+voice_profiles/
