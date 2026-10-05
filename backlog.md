@@ -1,21 +1,15 @@
-# backlog.md — nexmeet-tts_v3 Fikir / Özellik Havuzu
+# backlog.md — NexMeet TTS Fikir Havuzu
 
-Bu dosya henüz önceliklendirilmemiş, "bir gün yapılabilir" fikirler ve özellik talepleri içindir. Bir fikir somutlaşıp sıraya girdiğinde buradan çıkar, `task.md`ye taşınır.
-
-## Fikirler
-
-_(henüz boş — yeni bir fikir geldiğinde aşağıdaki şablonla ekle)_
-
-## Koddaki TODO / FIXME Notları
-
-_(kodda TODO/FIXME notu bulunamadı)_
+- Ses klonlama (GPU'lu ortamda ChatterboxTTS / XTTS) — v2 tasarımına dönüş.
+- Akış (streaming) çıktı: cümle cümle sentez, gecikmeyi düşürmek için (v2'deki chunker/queue fikri).
+- Whisper modelini `base`/`small`'a yükseltme denemesi (CPU süresi ölçülerek).
+- Çeviri için yerel model (NLLB / Argos) — dış servis bağımlılığını kaldırmak.
 
 ## Ekleme Şablonu
 
 ```markdown
 ### Başlık
-
 - **Kategori:** yeni özellik / iyileştirme / teknik borç / araştırma
-- **Neden istendi:** kısa gerekçe
-- **Notlar:** büyüklük tahmini, bağımlılıklar, riskler
+- **Neden:** kısa gerekçe
+- **Notlar:** büyüklük, bağımlılıklar, riskler
 ```

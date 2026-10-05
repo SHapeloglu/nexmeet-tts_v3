@@ -1,41 +1,25 @@
-# CLAUDE.md
+# CLAUDE.md — NexMeet TTS Servisi (v3, canlı)
 
-Bu dosya, bu proje üzerinde çalışırken Claude'un (Claude Code dahil) izlemesi gereken bağlamı ve kuralları içerir.
+NexMeet'in anlık konuşma çevirisi servisi. Tek dosya FastAPI (`main.py`): ses (base64 WAV) → **faster-whisper tiny** (CPU, int8) ile metin → **GoogleTranslator** (deep-translator) ile çeviri → **Kokoro ONNX** ile İngilizce ses (sabit `af_heart` sesi). Metin doğrudan gelirse STT atlanır. Whisper'ın sık halüsinasyonları ("altyazı", "abone ol" …) filtrelenir.
 
-## Proje
+- GitHub: https://github.com/SHapeloglu/nexmeet-tts_v3 — **PUBLIC repo**
+- **Canlı:** bu klasör, `nexmeet-tts.service` → `/root/nexmeet/venv/bin/uvicorn main:app --host 127.0.0.1 --port 5000` (NexMeet backend'in venv'ini paylaşıyor). Çağıran: `/root/nexmeet/backend/main.py` `/api/tts/*` proxy'si.
+- Önceki GPU tasarımı: `nexmeet_v2-kokoro-tts-service` (Whisper small + ChatterboxTTS ses klonlama, EC2 g4dn).
+- Mimari: `architect.md` · Görevler: `task.md` · Fikirler: `backlog.md` · Günlük: `session.md`
 
-**nexmeet-tts_v3** — _README'de açıklama bulunamadı. Projenin amacını buraya bir-iki cümleyle yazın._
-
-- GitHub: https://github.com/SHapeloglu/nexmeet-tts_v3
-- Sunucu (Contabo): canlı dizin /root/nexmeet-tts (systemd servisi)
-
-## Teknoloji Yığını
-
-- Python
-
-## Önemli Dosyalar
-
-- `main.py`
-
-Mimari ayrıntılar için bkz. `architect.md`.
-
-## Sık Kullanılan Komutlar
+## Komutlar
 
 ```bash
-python main.py
+sudo systemctl restart nexmeet-tts && journalctl -u nexmeet-tts -f
+curl -s 127.0.0.1:5000/health
 ```
 
-## Kurallar
+Model dosyaları `kokoro-v1.0.onnx` ve `voices-v1.0.bin` bu klasörde (gitignore'da; repoda yok — yeni kurulumda kokoro-onnx sürümlerinden indirilmeli).
 
-- `.env`, parola, token ve API anahtarlarını asla commit etme.
-- Her çalışma oturumunun sonunda `session.md`ye kısa kayıt düş; görev durumunu `task.md`de güncelle.
-- Önceliklendirilmemiş fikirleri `backlog.md`ye yaz; somutlaşınca `task.md`ye taşı.
+## Kurallar ve Tuzaklar
 
-## Çalışma Dosyaları
-
-| Dosya | Amaç |
-|---|---|
-| `architect.md` | Mimari ve dizin yapısı referansı |
-| `task.md` | Aktif / devam eden / tamamlanan görevler |
-| `backlog.md` | Önceliklendirilmemiş fikir ve teknik borç havuzu |
-| `session.md` | Oturum günlüğü — her oturum sonunda güncellenir |
+- `API_KEY` ortam değişkeni **zorunlu** (yoksa başlamaz); şu an systemd unit'inde düz yazılı ve zayıf — değiştirirken backend `.env` `TTS_API_KEY` ile birlikte değiştir.
+- `/voice-profile` sesi `voice_profiles/<peer_id>.wav` olarak kaydediyor ama **Kokoro bu profili kullanmıyor** (klonlama yok); `peer_id` dosya yoluna doğrudan giriyor — yol temizliği yapılmadan kullanıcı girdisi olarak genişletme.
+- CORS `*` ama servis sadece 127.0.0.1'de dinliyor; dışarı açma.
+- Modeller import anında yükleniyor (açılış birkaç saniye); istek başına model yükleme ekleme.
+- Oturum sonunda `session.md`'ye kayıt düş, `task.md`'yi güncelle.

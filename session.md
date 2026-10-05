@@ -1,42 +1,26 @@
-# session.md — nexmeet-tts_v3 Oturum Günlüğü
-
-Her çalışma oturumunda buraya kısa bir kayıt düşülür: ne yapıldı, hangi kararlar alındı, sıradaki adım ne. Amaç, bir sonraki oturuma (veya başka bir geliştiriciye/Claude örneğine) hızlıca bağlam aktarmak.
-
----
-
-## Şablon
-
-```markdown
-## YYYY-AA-GG
-
-**Yapılanlar:**
-- ...
-
-**Alınan kararlar / neden:**
-- ...
-
-**Açık sorunlar / bilinen eksikler:**
-- ...
-
-**Sıradaki adım:**
-- ...
-```
+# session.md — NexMeet TTS Oturum Günlüğü
 
 ---
 
 ## 2026-10-05
 
-**Yapılanlar:**
-- Eksik proje çalışma dosyaları oluşturuldu: `architect.md`, `backlog.md`, `CLAUDE.md`, `session.md`, `task.md`.
-- İçerik; README, dosya yapısı, bağımlılık dosyaları ve git geçmişinden çıkarıldı.
+- Şablondan üretilmiş çalışma dosyaları kod ve servis tanımı incelenerek yeniden yazıldı.
+- Tespitler: ses profili kaydediliyor ama kullanılmıyor; `peer_id` dosya yoluna doğrudan giriyor; `API_KEY` unit dosyasında zayıf değer; `requirements.txt` yok.
 
-**Açık sorunlar / bilinen eksikler:**
-- README yok — kurulum/çalıştırma adımları belgelenmeli.
-- Otomatik test bulunamadı — kritik akışlar için en azından duman (smoke) testleri eklenmeli.
+---
 
-**Sıradaki adım:**
-- `CLAUDE.md` ve `architect.md` içeriğini gözden geçirip proje sahibinin bilgisiyle tamamla.
+## 2026-07-20
 
-### Bu tarihten önceki son commit'ler (referans)
+- İlk commit: Kokoro ONNX + faster-whisper tiny ile CPU servisi; sabit API anahtarı kaldırılıp ortam değişkeni zorunlu yapıldı.
 
-- 2026-07-20 — (commit mesajı gizlendi)
+---
+
+### Kayıt Şablonu
+
+```markdown
+## YYYY-AA-GG
+**Yapılanlar:** ...
+**Kararlar / neden:** ...
+**Açık sorunlar:** ...
+**Sıradaki adım:** ...
+```
